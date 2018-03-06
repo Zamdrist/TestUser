@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -184,6 +185,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Test.BusinessLogic\Test.BusinessLogic.csproj">
+      <Project>{A17BFFDA-AABB-4FAB-BFF7-BA424B7C312F}</Project>
+      <Name>Test.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Test.Common\Test.Common.csproj">
+      <Project>{D9752987-164B-4B85-9F95-A66739EFB92F}</Project>
+      <Name>Test.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
