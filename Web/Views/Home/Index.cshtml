@@ -1,7 +1,7 @@
 ﻿@model List<Test.Common.TestUser>
 
 <h3>Test Users</h3>
-<a class="btn btn-primary" href="@this.Url.Action("TestUser", "Home", new {id = 0})"><i class="fa fa-lg fa-user"></i> Add User</a>
+<a class="btn btn-primary" href="@Url.Action("TestUser", "Home", new {id = 0})"><i class="fa fa-lg fa-user"></i> Add User</a>
 <table class="table table-striped">
 	<thead>
 		<tr>
@@ -19,7 +19,7 @@
 			<td>@testUser.FirstName</td>
 			<td>@testUser.LastName</td>
 			<td>@testUser.EmailAddress</td>
-			<td><a href="@this.Url.Action("TestUser", "Home", new {id = testUser.TestUserId })"><i class="fa fa-pencil fa-lg text-primary"></i></a></td>
+			<td><a href="@Url.Action("TestUser", "Home", new {id = testUser.TestUserId })"><i class="fa fa-pencil fa-lg text-primary"></i></a></td>
 		</tr>
 	}
 	</tbody>
