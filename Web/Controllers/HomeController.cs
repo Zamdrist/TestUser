@@ -6,29 +6,31 @@ namespace Web.Controllers
 {
 	public class HomeController : Controller
 	{
+		private TestUserBusinessLogic testUserBusinessLogic = new TestUserBusinessLogic();
+
 		public ActionResult Index()
 		{
-			ViewBag.Title = "Test Home";
+			this.ViewBag.Title = "Test Home";
 
-			var testUsers = TestUserBusinessLogic.GetTestUsers();
+			var testUsers = this.testUserBusinessLogic.GetTestUsers();
 
-			return View(testUsers);
+			return this.View(testUsers);
 		}
 
 		[HttpGet]
 		[Route("/TestUser/{id}")]
 		public ActionResult TestUser(int id)
 		{
-			var testUser = TestUserBusinessLogic.GetTestUser(id);
+			var testUser = this.testUserBusinessLogic.GetTestUser(id);
 
-			return View("TestUser", testUser);
+			return this.View("TestUser", testUser);
 		}
 
 		[HttpPost]
 		public ActionResult TestUser(TestUser testUser)
 		{
-			testUser = TestUserBusinessLogic.AddUpdateTestUser(testUser);
-			return View("TestUser", testUser);
+			testUser = this.testUserBusinessLogic.AddUpdateTestUser(testUser);
+			return this.View("TestUser", testUser);
 		}
 	}
 }
