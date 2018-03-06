@@ -9,14 +9,21 @@ namespace Test.DataAccess
 {
 	public static class TestUserDataAccess
 	{
+		private static string connectionString = $"Data Source=\"{AppDomain.CurrentDomain.BaseDirectory}App_Data\\test.sdf\"; Password=\"test_password\"";
+
+		private static SqlCeConnection ReturnSqlCeConnection()
+		{
+			return new SqlCeConnection(TestUserDataAccess.connectionString);
+		}
+
 		public static void CreateDatabaseAndTables()
 		{
-			using (var engine = new SqlCeEngine($"Data Source=\"{AppDomain.CurrentDomain.BaseDirectory}App_Data\\test.sdf\"; Password=\"test_password\""))
+			using (var engine = new SqlCeEngine(TestUserDataAccess.connectionString))
 			{
 				if (!engine.Verify())
 				{
 					engine.CreateDatabase();
-					using (var connection = new SqlCeConnection($"Data Source=\"{AppDomain.CurrentDomain.BaseDirectory}App_Data\\test.sdf\"; Password=\"test_password\""))
+					using (var connection = TestUserDataAccess.ReturnSqlCeConnection())
 					{
 						connection.Execute(@"CREATE TABLE TestUser(
 												[TestUserId] [INT] IDENTITY(1,1) PRIMARY KEY NOT NULL,
@@ -32,23 +39,23 @@ namespace Test.DataAccess
 
 		public static List<TestUser> GetTestUsers()
 		{
-			using (var connection = new SqlCeConnection($"Data Source=\"{AppDomain.CurrentDomain.BaseDirectory}App_Data\\test.sdf\"; Password=\"test_password\""))
+			using (var connection = TestUserDataAccess.ReturnSqlCeConnection())
 			{
-				return connection.Query<TestUser>("SELECT * TestUser").ToList();
+				return connection.Query<TestUser>("SELECT * FROM TestUser").ToList();
 			}
 		}
 
 		public static TestUser GetTestUser(int testUserId)
 		{
-			using (var connection = new SqlCeConnection($"Data Source=\"{AppDomain.CurrentDomain.BaseDirectory}App_Data\\test.sdf\"; Password=\"test_password\""))
+			using (var connection = TestUserDataAccess.ReturnSqlCeConnection())
 			{
 				return connection.Query<TestUser>("SELECT * FROM TestUser", new {TestUserId = testUserId}).Single();
 			}
 		}
 
-		public static TesstUser AddUpdateTestUser(TestUser testUser)
+		public static TestUser AddUpdateTestUser(TestUser testUser)
 		{
-			using (var connection = new SqlCeConnection($"Data Source=\"{AppDomain.CurrentDomain.BaseDirectory}App_Data\\test.sdf\"; Password=\"test_password\""))
+			using (var connection = TestUserDataAccess.ReturnSqlCeConnection())
 			{
 				if (testUser.TestUserId == 0)
 				{
@@ -56,13 +63,15 @@ namespace Test.DataAccess
 										( 
 											[FirstName]
 											,[LastName]
-											,[EmailAddress] 
+											,[EmailAddress]
+											,[CreateDate]
 										)
 										VALUES  
 										( 
 											@FirstName
 											,@LastName
 											,@EmailAddress
+											,GETDATE()
 										)"
 						, new { testUser.TestUserId, testUser.FirstName, testUser.LastName, testUser.EmailAddress });
 
@@ -70,7 +79,7 @@ namespace Test.DataAccess
 				}
 				else
 				{
-					connection.Execute("UPDATE TestUser
+					connection.Execute(@"UPDATE TestUser
 										SET [FirstName] = @FirstName
 											,[LastName] = @LastName
 											,[EmailAddress] = @EmailAddress
@@ -79,8 +88,7 @@ namespace Test.DataAccess
 						, new { testUser.TestUserId, testUser.FirstName, testUser.LastName, testUser.EmailAddress });
 				}
 
-				return GetTestUser(testUser.TestUserId);
-
+				return TestUserDataAccess.GetTestUser(testUser.TestUserId);
 			}
 		}
 	}
