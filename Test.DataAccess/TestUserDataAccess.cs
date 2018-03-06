@@ -60,7 +60,8 @@ namespace Test.DataAccess
 		{
 			using (var connection = TestUserDataAccess.ReturnSqlConnection())
 			{
-				return connection.Query<TestUser>("SELECT * FROM TestUser", new {TestUserId = testUserId}).SingleOrDefault();
+				return connection.Query<TestUser>("SELECT * FROM TestUser WHERE TestUserId = @testUserId",
+					new { testUserId }).SingleOrDefault();
 			}
 		}
 
