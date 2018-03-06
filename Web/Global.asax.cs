@@ -17,7 +17,8 @@ namespace Web
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-			TestUserBusinessLogic.CreateDatabaseAndTables();
+			var testUserBusinessLogic = new TestUserBusinessLogic();
+			testUserBusinessLogic.CreateDatabaseAndTables();
 		}
 	}
 }
