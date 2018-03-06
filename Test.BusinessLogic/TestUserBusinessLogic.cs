@@ -21,9 +21,9 @@ namespace Test.BusinessLogic
 			return TestUserDataAccess.AddUpdateTestUser(testUser);
 		}
 
-		public void CreateDatabaseAndTables()
+		public void CreateTable()
 		{
-			TestUserDataAccess.CreateDatabaseAndTables();
+			TestUserDataAccess.CreateTable();
 		}
 	}
 }

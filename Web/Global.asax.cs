@@ -18,7 +18,7 @@ namespace Web
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 
 			var testUserBusinessLogic = new TestUserBusinessLogic();
-			testUserBusinessLogic.CreateDatabaseAndTables();
+			testUserBusinessLogic.CreateTable();
 		}
 	}
 }

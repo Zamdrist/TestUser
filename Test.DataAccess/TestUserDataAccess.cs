@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlServerCe;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 using Test.Common;
@@ -9,37 +9,48 @@ namespace Test.DataAccess
 {
 	public static class TestUserDataAccess
 	{
-		private static string connectionString = $"Data Source=\"{AppDomain.CurrentDomain.BaseDirectory}App_Data\\test.sdf\"; Password=\"test_password\"";
+		private static string connectionString =
+			ConfigurationManager.ConnectionStrings["TestUserConnection"].ConnectionString;
 
-		private static SqlCeConnection ReturnSqlCeConnection()
+		private static SqlConnection ReturnSqlConnection()
 		{
-			return new SqlCeConnection(TestUserDataAccess.connectionString);
+			return new SqlConnection(TestUserDataAccess.connectionString);
 		}
 
-		public static void CreateDatabaseAndTables()
+		private static bool TableExists(string tableName)
 		{
-			using (var engine = new SqlCeEngine(TestUserDataAccess.connectionString))
+			using (var connection = TestUserDataAccess.ReturnSqlConnection())
 			{
-				if (!engine.Verify())
+				return connection.Query<bool>(
+					@"IF EXISTS (SELECT 1 
+					FROM [Test].INFORMATION_SCHEMA.TABLES 
+					WHERE TABLE_TYPE='BASE TABLE' 
+					AND TABLE_NAME=@tableName) 
+					SELECT 1 AS [Exists] ELSE SELECT 0 AS [Exists];", new { tableName }).FirstOrDefault();
+			}
+		}
+
+		public static void CreateTable()
+		{
+			if (!TestUserDataAccess.TableExists("TestUser"))
+			{
+				using (var connection = TestUserDataAccess.ReturnSqlConnection())
 				{
-					engine.CreateDatabase();
-					using (var connection = TestUserDataAccess.ReturnSqlCeConnection())
-					{
-						connection.Execute(@"CREATE TABLE TestUser(
-												[TestUserId] [INT] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-												[FirstName] [NVARCHAR](256) NOT NULL,
-												[LastName] [NVARCHAR](256) NOT NULL,
-												[EmailAddress] [NVARCHAR](256) NOT NULL,
-												[CreatedDate] [DATETIME]  NOT NULL DEFAULT(GETDATE()),
-												[ModifiedDate] [DATETIME] NOT NULL DEFAULT(GETDATE()))");
-					}
+					connection.Execute(
+						@"CREATE TABLE TestUser(
+					[TestUserId] [INT] IDENTITY(1,1) PRIMARY KEY NOT NULL,
+					[FirstName] [NVARCHAR](256) NOT NULL,
+					[LastName] [NVARCHAR](256) NOT NULL,
+					[EmailAddress] [NVARCHAR](256) NOT NULL,
+					[CreatedDate] [DATETIME]  NOT NULL DEFAULT(GETDATE()),
+					[ModifiedDate] [DATETIME] NOT NULL DEFAULT(GETDATE()))");
 				}
 			}
 		}
 
 		public static List<TestUser> GetTestUsers()
 		{
-			using (var connection = TestUserDataAccess.ReturnSqlCeConnection())
+			using (var connection = TestUserDataAccess.ReturnSqlConnection())
 			{
 				return connection.Query<TestUser>("SELECT * FROM TestUser").ToList();
 			}
@@ -47,15 +58,15 @@ namespace Test.DataAccess
 
 		public static TestUser GetTestUser(int testUserId)
 		{
-			using (var connection = TestUserDataAccess.ReturnSqlCeConnection())
+			using (var connection = TestUserDataAccess.ReturnSqlConnection())
 			{
-				return connection.Query<TestUser>("SELECT * FROM TestUser", new {TestUserId = testUserId}).Single();
+				return connection.Query<TestUser>("SELECT * FROM TestUser", new {TestUserId = testUserId}).SingleOrDefault();
 			}
 		}
 
 		public static TestUser AddUpdateTestUser(TestUser testUser)
 		{
-			using (var connection = TestUserDataAccess.ReturnSqlCeConnection())
+			using (var connection = TestUserDataAccess.ReturnSqlConnection())
 			{
 				if (testUser.TestUserId == 0)
 				{
@@ -64,7 +75,7 @@ namespace Test.DataAccess
 											[FirstName]
 											,[LastName]
 											,[EmailAddress]
-											,[CreateDate]
+											,[CreatedDate]
 										)
 										VALUES  
 										( 
