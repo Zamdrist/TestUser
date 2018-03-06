@@ -1,35 +1,35 @@
 ﻿@model Test.Common.TestUser
 
 @{
-	ViewBag.Title = "Test User";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+	this.ViewBag.Title = "Test User";
+	this.Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>Test User</h2>
-@using (Html.BeginForm())
+@using (this.Html.BeginForm())
 {
-	@Html.AntiForgeryToken()
+	@this.Html.AntiForgeryToken()
 
 	<div class="form-horizontal">
 		<hr />
-		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-		@Html.HiddenFor(model => model.TestUserId)
+		@this.Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		@this.Html.HiddenFor(model => model.TestUserId)
 
 		<div class="form-group">
-			@Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
-			@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.FirstName, "First Name is a required field", new { @class = "text-danger" })
+			@this.Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
+			@this.Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+			@this.Html.ValidationMessageFor(model => model.FirstName, "First Name is a required field", new { @class = "text-danger" })
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(model => model.LastName, new { @class = "control-label" })
-			@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.LastName, "Last Name is a required field", new { @class = "text-danger" })
+			@this.Html.LabelFor(model => model.LastName, new { @class = "control-label" })
+			@this.Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+			@this.Html.ValidationMessageFor(model => model.LastName, "Last Name is a required field", new { @class = "text-danger" })
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(model => model.EmailAddress, new { @class = "control-label" })
-			@Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.EmailAddress, "Last Name is a required field", new { @class = "text-danger" })
+			@this.Html.LabelFor(model => model.EmailAddress, new { @class = "control-label" })
+			@this.Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+			@this.Html.ValidationMessageFor(model => model.EmailAddress, "Email Address is a required field", new { @class = "text-danger" })
 		</div>
 		<div class="form-group">
 			<button class="btn btn-default"><a href="/">Cancel</a></button>

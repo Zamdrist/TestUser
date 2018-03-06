@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Test.Common
-{	
+{
 	public class TestUser
 	{
 		public int TestUserId { get; set; }
