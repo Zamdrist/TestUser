@@ -1,0 +1,25 @@
+﻿@model List<Test.Common.TestUser>
+
+<h3>Test Users</h3>
+<a class="btn btn-primary" href="@Url.Action("Home", new {id = 0})"><i class="fa fa-lg fa-user"></i> Add User</a>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Email Address</th>
+			<th>Edit</th>
+		</tr>
+	</thead>
+</table>
+	<tbody>
+	@foreach (var testUser in Model)
+	{
+		<tr>
+			<td>@testUser.FirstName</td>
+			<td>@testUser.LastName</td>
+			<td>@testUser.EmailAddress</td>
+			<td><a href="@Url.Action("TestUser", "Home", new {id = testUser.TestUserId })"><i class="fa fa-pencil fa-lg text-primary"></i></a></td>
+		</tr>
+	}
+	</tbody>

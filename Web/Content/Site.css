@@ -1,0 +1,13 @@
+﻿.body-content {
+	padding-top: 45px;
+}
+
+
+.field-validation-valid
+{
+	display: none;
+}
+.validation-summary-valid
+{
+	display: none;
+}
