@@ -25,5 +25,10 @@ namespace Test.BusinessLogic
 		{
 			TestUserDataAccess.CreateTable();
 		}
+
+		public void DeleteTestUser(int testUserId)
+		{
+			TestUserDataAccess.DeleteTestuser(testUserId);
+		}
 	}
 }

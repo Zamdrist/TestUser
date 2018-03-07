@@ -103,5 +103,13 @@ namespace Test.DataAccess
 				return TestUserDataAccess.GetTestUser(testUser.TestUserId);
 			}
 		}
+
+		public static void DeleteTestuser(int testUserId)
+		{
+			using (var connection = TestUserDataAccess.ReturnSqlConnection())
+			{
+				connection.Execute(@"Delete From TestUser Where TestUserId = @testUserId", new { testUserId });
+			}
+		}
 	}
 }
