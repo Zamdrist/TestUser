@@ -9,6 +9,7 @@
             <th>Last Name</th>
             <th>Email Address</th>
             <th>Edit</th>
+            <th>Delete</th>
         </tr>
     </thead>
 
@@ -19,7 +20,16 @@
                 <td>@testUser.FirstName</td>
                 <td>@testUser.LastName</td>
                 <td>@testUser.EmailAddress</td>
-                <td><a href="@Url.Action("TestUser", "Home", new {id = testUser.TestUserId })"><i class="fa fa-pencil fa-lg text-primary"></i></a></td>
+                <td>
+                    <a href="@Url.Action("TestUser", "Home", new {id = testUser.TestUserId})">
+                        <i class="fa fa-pencil fa-lg text-primary"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("DeleteTestUser", "Home", new {id = testUser.TestUserId})">
+                        <i class="fa fa-trash fa-lg text-primary"></i>
+                    </a>
+                </td>
             </tr>
         }
     </tbody>
