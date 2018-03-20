@@ -25,6 +25,14 @@ namespace Web
 					"~/Content/bootstrap.css",
 					"~/Content/font-awesome.css",
 					"~/Content/site.css"));
+
+			bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+				"~/Scripts/jquery-ui-3.3.1.js"));
+
+			bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
+				"~/Content/themes/base/jquery.ui.core.css",
+				"~/Content/themes/base/jquery.ui.button.css",
+				"~/Content/themes/base/jquery.ui.dialog.css"));
 		}
 	}
 }

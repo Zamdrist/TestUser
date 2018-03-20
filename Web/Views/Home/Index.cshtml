@@ -1,5 +1,8 @@
 ﻿@model List<Test.Common.TestUser>
 
+<div id="dialog-modal"><p>Delete Test User?</p></div>
+
+
 <h3>Test Users</h3>
 <a class="btn btn-primary" href="@Url.Action("TestUser", "Home", new {id = 0})"><i class="fa fa-lg fa-user"></i> Add User</a>
 <table class="table table-striped">
@@ -21,12 +24,13 @@
                 <td>@testUser.LastName</td>
                 <td>@testUser.EmailAddress</td>
                 <td>
-                    <a href="@Url.Action("TestUser", "Home", new {id = testUser.TestUserId})">
+                    <a href="@Url.Action("TestUser", "Home",
+                            new {id = testUser.TestUserId})">
                         <i class="fa fa-pencil fa-lg text-primary"></i>
                     </a>
                 </td>
                 <td>
-                    <a href="@Url.Action("DeleteTestUser", "Home", new {id = testUser.TestUserId})">
+                    <a href="#" class="confirm-delete" data-id="@testUser.TestUserId">
                         <i class="fa fa-trash fa-lg text-primary"></i>
                     </a>
                 </td>
