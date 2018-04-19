@@ -1,11 +1,13 @@
-﻿@model List<Test.Common.TestUser>
+﻿@using Test.Common
+@model List<TestUser>
 
 <div id="dialog-modal"><p>Delete Test User?</p></div>
 
-
 <h3>Test Users</h3>
 <a class="btn btn-primary" href="@Url.Action("TestUser", "Home", new {id = 0})"><i class="fa fa-lg fa-user"></i> Add User</a>
-<table class="table table-striped" id="TestUsers">
+@Html.ActionLink("Export","ExportTestUsers")
+
+<table class="table table-striped" id="TestUsersTable" runat="server">
     <thead>
         <tr>
             <th>First Name</th>
